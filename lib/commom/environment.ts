@@ -2,7 +2,7 @@ export const environment = {
     server: { port: process.env.SERVER_PORT || 3000},
     db: {
         db_host: process.env.DB_HOST || "34.95.132.83",
-        db_port: process.env.DB_PORT || 5432,
+        db_port:  5432,
         db_user: process.env.DB_USER || "postgres",
         db_password: process.env.DB_PASSWORD || "v3GMhvo135pu6LJo",
         db_database: process.env.DB_DATABASE || "db_paroquia",

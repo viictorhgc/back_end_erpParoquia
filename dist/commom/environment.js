@@ -3,12 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.environment = {
     server: { port: process.env.SERVER_PORT || 3000 },
     db: {
-        db_host: "34.95.132.83",
+        db_host: process.env.DB_HOST || "34.95.132.83",
         db_port: 5432,
-        db_user: "postgres",
-        db_password: "v3GMhvo135pu6LJo",
-        db_database: "db_paroquia",
-        db_dialect: 'postgres',
+        db_user: process.env.DB_USER || "postgres",
+        db_password: process.env.DB_PASSWORD || "v3GMhvo135pu6LJo",
+        db_database: process.env.DB_DATABASE || "db_paroquia",
         db_use_timestamp: false
     },
     security: {
