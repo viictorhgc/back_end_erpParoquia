@@ -4,29 +4,26 @@ import { Pessoa, Pessoa_Grupo } from './pessoas.model'
 import { Grupo } from '../grupos/grupos.model'
 import { authenticate } from '../../security/auth.handler'
 import { authorize } from '../../security/authz.handler'
+import { ModelRouter } from '../../commom/model-router'
 
-class PessoasRouter {
+class PessoasRouter extends ModelRouter<Pessoa> {
+
+    constructor() {
+        super(Pessoa)
+        this.on('beforeRender', document=>{
+            document.telefone = undefined
+        })
+    }
 
     applyRoutes(application: restify.Server) {
 
-        application.get('/pessoa', (req, resp, next) => {
-            Pessoa.findAll({
-                include: [Grupo]
-            }).then(data => {
-                resp.send(200, data);
-            }).catch(next)
-        })
-
-        application.get('/pessoa/:id', (req, resp, next) => {
-            Pessoa.findByPk<Pessoa>(req.params.id)
-                .then((Pessoa: Pessoa | null) => {
-                    if (Pessoa) {
-                        resp.send(200, Pessoa)
-                    } else {
-                        resp.send(404, { errors: ["Pessoa não encontrada"] })
-                    }
-                }).catch(next)
-        })
+        
+        application.get('/pessoa', this.findAll)
+        application.get('/pessoa/:id', this.findByPk)
+        application.post(`${this.basePath}`, this.save)
+        //application.put(`${this.basePath}/:id`, this.replace)
+        //application.patch(`${this.basePath}/:id`,this.validateId,this.update])
+        application.del(`${this.basePath}/:id`, this.delete)
 
     }
 

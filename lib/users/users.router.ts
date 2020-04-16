@@ -3,7 +3,7 @@ import * as restify from 'restify'
 import {User} from './users.model'
 import { authenticate } from '../security/auth.handler'
 import {authorize} from '../security/authz.handler'
-
+/*
 class UsersRouter extends ModelRouter<User> {
 
     constructor() {
@@ -49,3 +49,5 @@ class UsersRouter extends ModelRouter<User> {
 }
 
 export const usersRouter = new UsersRouter ()
+
+*/

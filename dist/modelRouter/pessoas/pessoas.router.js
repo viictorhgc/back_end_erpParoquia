@@ -1,27 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const pessoas_model_1 = require("./pessoas.model");
-const grupos_model_1 = require("../grupos/grupos.model");
-class PessoasRouter {
+const model_router_1 = require("../../commom/model-router");
+class PessoasRouter extends model_router_1.ModelRouter {
+    constructor() {
+        super(pessoas_model_1.Pessoa);
+        this.on('beforeRender', document => {
+            document.telefone = undefined;
+        });
+    }
     applyRoutes(application) {
-        application.get('/pessoa', (req, resp, next) => {
-            pessoas_model_1.Pessoa.findAll({
-                include: [grupos_model_1.Grupo]
-            }).then(data => {
-                resp.send(200, data);
-            }).catch(next);
-        });
-        application.get('/pessoa/:id', (req, resp, next) => {
-            pessoas_model_1.Pessoa.findByPk(req.params.id)
-                .then((Pessoa) => {
-                if (Pessoa) {
-                    resp.send(200, Pessoa);
-                }
-                else {
-                    resp.send(404, { errors: ["Pessoa não encontrada"] });
-                }
-            }).catch(next);
-        });
+        application.get('/pessoa', this.findAll);
+        application.get('/pessoa/:id', this.findByPk);
+        application.post(`${this.basePath}`, this.save);
+        //application.put(`${this.basePath}/:id`, this.replace)
+        //application.patch(`${this.basePath}/:id`,this.validateId,this.update])
+        application.del(`${this.basePath}/:id`, this.delete);
     }
 }
 exports.pessoasRouter = new PessoasRouter();
