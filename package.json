@@ -4,7 +4,8 @@
   "description": "Back end referente ao projeto erp Paroquia",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node ./dist/main.js"
   },
   "repository": {
     "type": "git",
@@ -16,6 +17,7 @@
   "dependencies": {
     "bcrypt": "^4.0.1",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.9",
     "pg": "^8.0.2",
     "pg-hstore": "^2.3.3",
     "restify": "^8.5.1",
