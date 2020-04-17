@@ -11,7 +11,7 @@ export class Pastoral extends sequelize.Model {
 }
 
 Pastoral.init({
-    id: {
+    id: {   
         field: 't008_id_pastoral',
         type: sequelize.DataTypes.INTEGER,
         autoIncrement: true,

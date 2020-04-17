@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("./server/server");
+const eventos_router_1 = require("./modelRouter/eventos/eventos.router");
 const pessoas_router_1 = require("./modelRouter/pessoas/pessoas.router");
 const grupos_router_1 = require("./modelRouter/grupos/grupos.router");
 const campanhas_router_1 = require("./modelRouter/campanhas/campanhas.router");
@@ -10,7 +11,8 @@ server.bootstrap([
     pessoas_router_1.pessoasRouter,
     grupos_router_1.gruposRouter,
     campanhas_router_1.campanhasRouter,
-    pastorais_router_1.pastoraisRouter
+    pastorais_router_1.pastoraisRouter,
+    eventos_router_1.eventosRouter,
 ]).then(server => {
     console.log('Server is listening on: ', server.application.address());
 }).catch(error => {

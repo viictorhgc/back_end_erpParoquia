@@ -9,19 +9,10 @@ class ModelRouter extends router_1.Router {
         this.pageSize = 4;
         this.findByPk = (req, resp, next) => {
             this.model.findByPk(req.params.id)
-                .then(dados => {
-                if (dados) {
-                    resp.send(200, dados);
-                }
-                else {
-                    next(new restify_errors_1.NotFoundError('Não encontrado'));
-                }
-            }).catch(next);
+                .then(this.render(resp, next)).catch(next);
         };
         this.findAll = (req, resp, next) => {
-            this.model.findAll().then(data => {
-                resp.send(200, data);
-            }).catch(next);
+            this.model.findAll().then(this.renderAll(resp, next)).catch(next);
         };
         this.save = (req, resp, next) => {
             let document = new this.model(req.body);
@@ -41,7 +32,38 @@ class ModelRouter extends router_1.Router {
             })
                 .catch(next);
         };
+        this.replace = (req, resp, next) => {
+            this.model.findByPk(req.params.id)
+                .then(dados => {
+                if (dados) {
+                    dados.update(req.body, { where: { id: req.params.id } })
+                        .then(this.render(resp, next))
+                        .catch(next);
+                }
+                else {
+                    next(new restify_errors_1.NotFoundError('Não encontrado'));
+                }
+            }).catch(next);
+        };
+        this.update = (req, resp, next) => {
+            this.model.findByPk(req.params.id)
+                .then(dados => {
+                if (dados) {
+                    dados.update(req.body, { where: { id: req.params.id } })
+                        .then(this.render(resp, next))
+                        .catch(next);
+                }
+                else {
+                    next(new restify_errors_1.NotFoundError('Não encontrado'));
+                }
+            }).catch(next);
+        };
         this.basePath = `/${model.name.toLowerCase()}`;
+    }
+    envelope(document) {
+        let resource = Object.assign({ _links: {} }, document.toJSON());
+        resource._links.self = `${this.basePath}/${resource.id}`;
+        return resource;
     }
 }
 exports.ModelRouter = ModelRouter;

@@ -1,32 +1,28 @@
 
 import * as restify from 'restify'
-import { Pessoa,  Pessoa_Grupo } from '../pessoas/pessoas.model'
+import { Pessoa, Pessoa_Grupo } from '../pessoas/pessoas.model'
 import { Grupo } from '../grupos/grupos.model'
 import { authenticate } from '../../security/auth.handler'
 import { authorize } from '../../security/authz.handler'
+import { ModelRouter } from '../../commom/model-router'
 
-class GruposRouter {
+class GruposRouter extends ModelRouter<Grupo>{
+
+    constructor() {
+        super(Grupo)
+    }
 
     applyRoutes(application: restify.Server) {
 
-        application.get('/grupo', (req, resp, next) => {
-            Grupo.findAll().then(data => {
-                resp.send(200, data);
-            }).catch(next)
-        })
-
-        application.get('/grupo/:id', (req, resp, next) => {
-            Grupo.findByPk<Grupo>(req.params.id)
-            .then((Grupo: Grupo | null) => {
-                if (Grupo) {
-                    resp.send(200, Grupo)
-                } else {
-                    resp.send(404, { errors: ["Grupo não encontrado"] })
-                }
-            }).catch(next)
-        })
+        application.get(`${this.basePath}`, this.findAll)
+        application.get(`${this.basePath}/:id`, this.findByPk)
+        application.post(`${this.basePath}`, this.save)
+        application.put(`${this.basePath}/:id`, this.replace)
+        application.patch(`${this.basePath}/:id`, this.update)
+        application.del(`${this.basePath}/:id`, this.delete)
 
     }
-}  
+
+}
 
 export const gruposRouter = new GruposRouter()

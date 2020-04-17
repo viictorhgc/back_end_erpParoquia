@@ -1,24 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const grupos_model_1 = require("../grupos/grupos.model");
-class GruposRouter {
+const model_router_1 = require("../../commom/model-router");
+class GruposRouter extends model_router_1.ModelRouter {
+    constructor() {
+        super(grupos_model_1.Grupo);
+    }
     applyRoutes(application) {
-        application.get('/grupo', (req, resp, next) => {
-            grupos_model_1.Grupo.findAll().then(data => {
-                resp.send(200, data);
-            }).catch(next);
-        });
-        application.get('/grupo/:id', (req, resp, next) => {
-            grupos_model_1.Grupo.findByPk(req.params.id)
-                .then((Grupo) => {
-                if (Grupo) {
-                    resp.send(200, Grupo);
-                }
-                else {
-                    resp.send(404, { errors: ["Grupo não encontrado"] });
-                }
-            }).catch(next);
-        });
+        application.get(`${this.basePath}`, this.findAll);
+        application.get(`${this.basePath}/:id`, this.findByPk);
+        application.post(`${this.basePath}`, this.save);
+        application.put(`${this.basePath}/:id`, this.replace);
+        application.patch(`${this.basePath}/:id`, this.update);
+        application.del(`${this.basePath}/:id`, this.delete);
     }
 }
 exports.gruposRouter = new GruposRouter();

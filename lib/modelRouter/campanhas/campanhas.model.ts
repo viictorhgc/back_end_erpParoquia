@@ -1,5 +1,6 @@
 import * as sequelize from 'sequelize';
 import { database } from '../../server/conexao.db'
+import { Evento } from '../eventos/eventos.model';
 
 export class Campanha extends sequelize.Model {
     public id!: bigint;
@@ -42,5 +43,8 @@ Campanha.init({
     sequelize: database,
     timestamps: false
 });
+
+Campanha.hasMany(Evento)
+Evento.hasOne(Campanha)
 
 

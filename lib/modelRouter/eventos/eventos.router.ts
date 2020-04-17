@@ -1,14 +1,14 @@
 
 import * as restify from 'restify'
-import { Pastoral } from '../pastorais/pastorais.model'
 import { authenticate } from '../../security/auth.handler'
 import { authorize } from '../../security/authz.handler'
 import { ModelRouter } from '../../commom/model-router'
+import { Evento } from './eventos.model'
 
-class PastoraisRouter extends ModelRouter<Pastoral> {
+class EventosRouter extends ModelRouter<Evento>{
 
     constructor() {
-        super(Pastoral)
+        super(Evento)
     }
 
     applyRoutes(application: restify.Server) {
@@ -21,6 +21,7 @@ class PastoraisRouter extends ModelRouter<Pastoral> {
         application.del(`${this.basePath}/:id`, this.delete)
 
     }
+
 }
 
-export const pastoraisRouter = new PastoraisRouter()
+export const eventosRouter = new EventosRouter()

@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const pastorais_model_1 = require("../pastorais/pastorais.model");
 const model_router_1 = require("../../commom/model-router");
-class PastoraisRouter extends model_router_1.ModelRouter {
+const eventos_model_1 = require("./eventos.model");
+class EventosRouter extends model_router_1.ModelRouter {
     constructor() {
-        super(pastorais_model_1.Pastoral);
+        super(eventos_model_1.Evento);
     }
     applyRoutes(application) {
         application.get(`${this.basePath}`, this.findAll);
@@ -15,5 +15,5 @@ class PastoraisRouter extends model_router_1.ModelRouter {
         application.del(`${this.basePath}/:id`, this.delete);
     }
 }
-exports.pastoraisRouter = new PastoraisRouter();
-//# sourceMappingURL=pastorais.router.js.map
+exports.eventosRouter = new EventosRouter();
+//# sourceMappingURL=eventos.router.js.map

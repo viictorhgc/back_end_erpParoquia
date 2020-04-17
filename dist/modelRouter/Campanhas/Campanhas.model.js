@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize = require("sequelize");
 const conexao_db_1 = require("../../server/conexao.db");
+const eventos_model_1 = require("../eventos/eventos.model");
 class Campanha extends sequelize.Model {
 }
 exports.Campanha = Campanha;
@@ -38,4 +39,6 @@ Campanha.init({
     sequelize: conexao_db_1.database,
     timestamps: false
 });
+Campanha.hasMany(eventos_model_1.Evento);
+eventos_model_1.Evento.hasOne(Campanha);
 //# sourceMappingURL=Campanhas.model.js.map

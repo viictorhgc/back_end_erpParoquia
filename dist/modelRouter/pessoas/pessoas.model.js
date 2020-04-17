@@ -45,7 +45,7 @@ exports.Pessoa_Grupo = Pessoa_Grupo;
 Pessoa_Grupo.init({
     PessoaId: {
         field: 't001_id_pessoa',
-        type: sequelize.DataTypes.INTEGER,
+        type: sequelize.DataTypes.BIGINT,
         allowNull: false,
         primaryKey: true,
         autoIncrement: false,

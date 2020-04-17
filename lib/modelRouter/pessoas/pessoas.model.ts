@@ -77,7 +77,7 @@ export class Pessoa_Grupo extends sequelize.Model {
 Pessoa_Grupo.init({
   PessoaId: {
     field: 't001_id_pessoa',
-    type: sequelize.DataTypes.INTEGER,
+    type: sequelize.DataTypes.BIGINT,
     allowNull: false,
     primaryKey: true,
     autoIncrement: false,

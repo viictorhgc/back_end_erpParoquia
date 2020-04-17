@@ -10,19 +10,19 @@ class PessoasRouter extends ModelRouter<Pessoa> {
 
     constructor() {
         super(Pessoa)
-        this.on('beforeRender', document=>{
-            document.telefone = undefined
+        this.on('beforeRender', document => {
+            document.telefone = undefined // Exemplo alterando um documento antes de exibir.
         })
     }
 
     applyRoutes(application: restify.Server) {
 
-        
-        application.get('/pessoa', this.findAll)
-        application.get('/pessoa/:id', this.findByPk)
+
+        application.get(`${this.basePath}`, this.findAll)
+        application.get(`${this.basePath}/:id`, this.findByPk)
         application.post(`${this.basePath}`, this.save)
-        //application.put(`${this.basePath}/:id`, this.replace)
-        //application.patch(`${this.basePath}/:id`,this.validateId,this.update])
+        application.put(`${this.basePath}/:id`, this.replace)
+        application.patch(`${this.basePath}/:id`, this.update)
         application.del(`${this.basePath}/:id`, this.delete)
 
     }

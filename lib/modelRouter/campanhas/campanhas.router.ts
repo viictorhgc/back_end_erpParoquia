@@ -3,29 +3,25 @@ import * as restify from 'restify'
 import { Campanha } from '../Campanhas/Campanhas.model'
 import { authenticate } from '../../security/auth.handler'
 import { authorize } from '../../security/authz.handler'
+import { ModelRouter } from '../../commom/model-router'
 
-class CampanhasRouter {
+class CampanhasRouter extends ModelRouter <Campanha> {
+
+    constructor() {
+        super(Campanha)
+    }
 
     applyRoutes(application: restify.Server) {
 
-        application.get('/campanha', (req, resp, next) => {
-            Campanha.findAll().then(data => {
-                resp.send(200, data);
-            }).catch(next)
-        })
-
-        application.get('/campanha/:id', (req, resp, next) => {
-            Campanha.findByPk<Campanha>(req.params.id)
-            .then((Campanha: Campanha | null) => {
-                if (Campanha) {
-                    resp.send(200, Campanha)
-                } else {
-                    resp.send(404, { errors: ["Campanha não encontrado"] })
-                }
-            }).catch(next)
-        })
+        application.get(`${this.basePath}`, this.findAll)
+        application.get(`${this.basePath}/:id`, this.findByPk)
+        application.post(`${this.basePath}`, this.save)
+        application.put(`${this.basePath}/:id`, this.replace)
+        application.patch(`${this.basePath}/:id`, this.update)
+        application.del(`${this.basePath}/:id`, this.delete)
 
     }
+
 }  
 
 export const campanhasRouter = new CampanhasRouter()
