@@ -41,4 +41,4 @@ Campanha.init({
 });
 Campanha.hasMany(eventos_model_1.Evento);
 eventos_model_1.Evento.hasOne(Campanha);
-//# sourceMappingURL=Campanhas.model.js.map
+//# sourceMappingURL=campanhas.model.js.map

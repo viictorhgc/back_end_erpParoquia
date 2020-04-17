@@ -1,17 +1,22 @@
 
 import * as restify from 'restify'
+import { ReceitaDespesa } from './receitasDespesas.model'
 import { Grupo } from '../grupos/grupos.model'
 import { authenticate } from '../../security/auth.handler'
 import { authorize } from '../../security/authz.handler'
 import { ModelRouter } from '../../commom/model-router'
 
-class GruposRouter extends ModelRouter<Grupo>{
+class ReceitasDespesasRouter extends ModelRouter<ReceitaDespesa> {
 
     constructor() {
-        super(Grupo)
+        super(ReceitaDespesa)
+        this.on('beforeRender', document => {
+            document.telefone = undefined // Exemplo alterando um documento antes de exibir.
+        })
     }
 
     applyRoutes(application: restify.Server) {
+
 
         application.get(`${this.basePath}`, this.findAll)
         application.get(`${this.basePath}/:id`, this.findByPk)
@@ -24,4 +29,4 @@ class GruposRouter extends ModelRouter<Grupo>{
 
 }
 
-export const gruposRouter = new GruposRouter()
+export const receitaDespesa = new ReceitasDespesasRouter()

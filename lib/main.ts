@@ -4,6 +4,8 @@ import { pessoasRouter } from './modelRouter/pessoas/pessoas.router'
 import { gruposRouter } from './modelRouter/grupos/grupos.router'
 import { campanhasRouter } from './modelRouter/campanhas/campanhas.router'
 import { pastoraisRouter } from './modelRouter/pastorais/pastorais.router'
+import { receitaDespesa } from './modelRouter/receitasDespesas/receitasDespesas.router'
+import { fluxosCaixaRouter } from './modelRouter/fluxosCaixa/fluxosCaixa.router'
 
 const server = new Server()
 server.bootstrap([
@@ -12,6 +14,8 @@ server.bootstrap([
     campanhasRouter,
     pastoraisRouter,
     eventosRouter,
+    receitaDespesa,
+    fluxosCaixaRouter
 
 ]).then(server => {
     console.log('Server is listening on: ', server.application.address())

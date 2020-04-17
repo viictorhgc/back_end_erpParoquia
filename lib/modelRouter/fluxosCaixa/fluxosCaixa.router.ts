@@ -1,14 +1,17 @@
 
 import * as restify from 'restify'
-import { Grupo } from '../grupos/grupos.model'
 import { authenticate } from '../../security/auth.handler'
 import { authorize } from '../../security/authz.handler'
 import { ModelRouter } from '../../commom/model-router'
+import { FluxoCaixa } from './fluxosCaixa.model'
 
-class GruposRouter extends ModelRouter<Grupo>{
+class FluxosCaixaRouter extends ModelRouter<FluxoCaixa> {
 
     constructor() {
-        super(Grupo)
+        super(FluxoCaixa)
+        this.on('beforeRender', document => {
+            document.telefone = undefined // Exemplo alterando um documento antes de exibir.
+        })
     }
 
     applyRoutes(application: restify.Server) {
@@ -24,4 +27,4 @@ class GruposRouter extends ModelRouter<Grupo>{
 
 }
 
-export const gruposRouter = new GruposRouter()
+export const fluxosCaixaRouter = new FluxosCaixaRouter()

@@ -1,7 +1,6 @@
 
 import * as restify from 'restify'
-import { Pessoa, Pessoa_Grupo } from './pessoas.model'
-import { Grupo } from '../grupos/grupos.model'
+import { Pessoa } from './pessoas.model'
 import { authenticate } from '../../security/auth.handler'
 import { authorize } from '../../security/authz.handler'
 import { ModelRouter } from '../../commom/model-router'
@@ -11,9 +10,29 @@ class PessoasRouter extends ModelRouter<Pessoa> {
     constructor() {
         super(Pessoa)
         this.on('beforeRender', document => {
-            document.telefone = undefined // Exemplo alterando um documento antes de exibir.
+            document.senha = undefined // Exemplo alterando um documento antes de exibir.
         })
-    }
+    } 
+    
+    /*
+    findByEmail = (req,resp,next)=> {
+        if(req.body.email){
+            console.log("Danado ta aqui")
+            Pessoa.findOne({where: {email : req.body.email}})
+            .then(user => {
+                console.log(user)
+              if(user) {
+                  return [user]
+              } else {
+                  return []
+              }
+            })
+            .then(this.renderAll(resp,next))
+            .catch(next)
+        } else {
+            throw new Error("Favor preencher o e-mail")
+        }
+    }*/
 
     applyRoutes(application: restify.Server) {
 
@@ -24,6 +43,8 @@ class PessoasRouter extends ModelRouter<Pessoa> {
         application.put(`${this.basePath}/:id`, this.replace)
         application.patch(`${this.basePath}/:id`, this.update)
         application.del(`${this.basePath}/:id`, this.delete)
+
+        application.post('/autenticar', authenticate )
 
     }
 

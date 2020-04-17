@@ -1,13 +1,10 @@
-import * as sequelize from 'sequelize';
-import { database } from '../../server/conexao.db'
-
-export class Grupo extends sequelize.Model {
-    public id!: bigint;
-    public nome!: string;
-    public data_criacao!: Date;
-    public ativo!: boolean;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize = require("sequelize");
+const conexao_db_1 = require("../../server/conexao.db");
+class Grupo extends sequelize.Model {
 }
-
+exports.Grupo = Grupo;
 Grupo.init({
     id: {
         field: 't002_id_grupo',
@@ -33,7 +30,7 @@ Grupo.init({
 }, {
     schema: 'erp_paroquia',
     tableName: 't002_grupo',
-    sequelize: database,
+    sequelize: conexao_db_1.database,
     timestamps: false
 });
-
+//# sourceMappingURL=grupos.model.js.map

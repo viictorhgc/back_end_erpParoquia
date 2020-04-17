@@ -7,6 +7,12 @@ class ModelRouter extends router_1.Router {
         super();
         this.model = model;
         this.pageSize = 4;
+        this.findOne = (req, resp, next) => {
+            let document = new this.model(req.body);
+            this.model.findOne({ where: req.body })
+                .then(this.render(resp, next))
+                .catch(next);
+        };
         this.findByPk = (req, resp, next) => {
             this.model.findByPk(req.params.id)
                 .then(this.render(resp, next)).catch(next);
@@ -59,6 +65,14 @@ class ModelRouter extends router_1.Router {
             }).catch(next);
         };
         this.basePath = `/${model.name.toLowerCase()}`;
+    }
+    paginar() {
+        // Fetch 10 instances/rows
+        this.model.findAll({ limit: 10 });
+        // Skip 8 instances/rows
+        this.model.findAll({ offset: 8 });
+        // Skip 5 instances and fetch the 5 after that
+        this.model.findAll({ offset: 5, limit: 5 });
     }
     envelope(document) {
         let resource = Object.assign({ _links: {} }, document.toJSON());

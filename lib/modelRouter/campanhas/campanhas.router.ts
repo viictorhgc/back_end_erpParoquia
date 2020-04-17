@@ -1,6 +1,6 @@
 
 import * as restify from 'restify'
-import { Campanha } from '../Campanhas/Campanhas.model'
+import { Campanha } from '../campanhas/campanhas.model'
 import { authenticate } from '../../security/auth.handler'
 import { authorize } from '../../security/authz.handler'
 import { ModelRouter } from '../../commom/model-router'

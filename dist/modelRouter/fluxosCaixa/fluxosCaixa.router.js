@@ -1,10 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Campanhas_model_1 = require("../Campanhas/Campanhas.model");
 const model_router_1 = require("../../commom/model-router");
-class CampanhasRouter extends model_router_1.ModelRouter {
+const fluxosCaixa_model_1 = require("./fluxosCaixa.model");
+class FluxosCaixaRouter extends model_router_1.ModelRouter {
     constructor() {
-        super(Campanhas_model_1.Campanha);
+        super(fluxosCaixa_model_1.FluxoCaixa);
+        this.on('beforeRender', document => {
+            document.telefone = undefined; // Exemplo alterando um documento antes de exibir.
+        });
     }
     applyRoutes(application) {
         application.get(`${this.basePath}`, this.findAll);
@@ -15,5 +18,5 @@ class CampanhasRouter extends model_router_1.ModelRouter {
         application.del(`${this.basePath}/:id`, this.delete);
     }
 }
-exports.campanhasRouter = new CampanhasRouter();
-//# sourceMappingURL=campanhas.router.js.map
+exports.fluxosCaixaRouter = new FluxosCaixaRouter();
+//# sourceMappingURL=fluxosCaixa.router.js.map

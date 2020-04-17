@@ -1,11 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize = require("sequelize");
+const bcrypt = require("bcrypt");
 const conexao_db_1 = require("../../server/conexao.db");
 const grupos_model_1 = require("../grupos/grupos.model");
+const pessoasGrupos_model_1 = require("./pessoasGrupos.model");
+const environment_1 = require("../../commom/environment");
 class Pessoa extends sequelize.Model {
+    validPassword(senha) {
+        return bcrypt.compareSync(senha, this.senha);
+    }
 }
 exports.Pessoa = Pessoa;
+Pessoa.findByEmail = function (email) {
+    console.log("TA USANDO ESSE");
+    return this.findOne({ where: { email } });
+};
 Pessoa.init({
     id: {
         field: 't001_id_pessoa',
@@ -18,62 +28,77 @@ Pessoa.init({
         type: new sequelize.DataTypes.STRING(500),
         allowNull: false,
     },
-    data_nascimento: {
+    email: {
+        field: 't001_ds_email',
+        type: new sequelize.DataTypes.STRING(255),
+        allowNull: false,
+        validate: {
+            isEmail: {
+                msg: "Favor inserir um e-mail válido"
+            }
+        }
+    },
+    dataNascimento: {
         field: 't001_dt_nascimento',
         type: new sequelize.DataTypes.DATEONLY,
         allowNull: false
     },
     endereco: {
-        field: 't001_de_endereco',
+        field: 't001_ds_endereco',
         type: new sequelize.DataTypes.STRING(1000),
         allowNull: false
     },
     telefone: {
-        field: 't001_de_telefone',
+        field: 't001_ds_telefone',
         type: new sequelize.DataTypes.STRING(20),
         allowNull: false
+    },
+    senha: {
+        field: 't001_hash_senha',
+        type: new sequelize.DataTypes.STRING,
+        allowNull: true
+    },
+    podeLogar: {
+        field: 't001_is_login',
+        type: new sequelize.DataTypes.TINYINT,
+        allowNull: true,
+        validate: {
+            isIn: {
+                args: [['0', '1']],
+                msg: "Favor preencher com um valor booleano"
+            }
+        }
     }
 }, {
     schema: 'erp_paroquia',
     tableName: 't001_pessoa',
     sequelize: conexao_db_1.database,
-    timestamps: false
-});
-class Pessoa_Grupo extends sequelize.Model {
-}
-exports.Pessoa_Grupo = Pessoa_Grupo;
-Pessoa_Grupo.init({
-    PessoaId: {
-        field: 't001_id_pessoa',
-        type: sequelize.DataTypes.BIGINT,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: false,
-    },
-    GrupoId: {
-        field: 't002_id_grupo',
-        type: new sequelize.DataTypes.STRING(255),
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: false,
-    },
-    data_inclusao: {
-        field: 't003_dt_inclusao',
-        type: new sequelize.DataTypes.DATE,
-        allowNull: false
-    },
-    data_remocao: {
-        field: 't003_dt_remocao',
-        type: new sequelize.DataTypes.DATE,
-        allowNull: true
-    }
-}, {
-    schema: 'erp_paroquia',
-    tableName: 't003_pessoa_grupo',
-    sequelize: conexao_db_1.database,
-    timestamps: false
+    timestamps: false,
+    modelName: "Pessoa"
 });
 //Manter a relação sempre no mesmo arquivo.
-Pessoa.belongsToMany(grupos_model_1.Grupo, { through: Pessoa_Grupo });
-grupos_model_1.Grupo.belongsToMany(Pessoa, { through: Pessoa_Grupo });
+Pessoa.belongsToMany(grupos_model_1.Grupo, { through: pessoasGrupos_model_1.PessoaGrupo });
+grupos_model_1.Grupo.belongsToMany(Pessoa, { through: pessoasGrupos_model_1.PessoaGrupo });
+// Criptografando senha
+Pessoa.beforeCreate((pessoa, options) => {
+    if (pessoa.podeLogar) {
+        console.log(pessoa.senha);
+        if (pessoa.senha) {
+            return bcrypt.hash(pessoa.senha, environment_1.environment.security.saltRounds)
+                .then(hash => {
+                pessoa.senha = hash;
+            })
+                .catch(err => {
+                throw new Error(err);
+            });
+        }
+        else {
+            throw new Error("A senha deve ser preenchida quando a pessoa tiver o login habilitado");
+        }
+    }
+    else {
+        // Limpa a senha caso o usuário não possa fazer login
+        pessoa.senha = undefined;
+    }
+});
 //# sourceMappingURL=pessoas.model.js.map
