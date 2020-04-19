@@ -1,6 +1,5 @@
 import * as sequelize from 'sequelize';
 import { database } from '../../server/conexao.db'
-import { Pessoa, Pessoa_Grupo } from '../pessoas/pessoas.model'
 
 export class Pastoral extends sequelize.Model {
     public id!: bigint;

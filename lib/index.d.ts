@@ -1,7 +1,7 @@
-import {User} from './users/users.model'
+import { Pessoa } from './modelRouter/pessoas/pessoas.model'
 
 declare module 'restify' {
     export interface Request {
-        authenticated: User
+        authenticated: Pessoa
     }
 }

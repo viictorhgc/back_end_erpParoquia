@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const pessoas_model_1 = require("./pessoas.model");
 const auth_handler_1 = require("../../security/auth.handler");
+const authz_handler_1 = require("../../security/authz.handler");
 const model_router_1 = require("../../commom/model-router");
 class PessoasRouter extends model_router_1.ModelRouter {
     constructor() {
@@ -30,7 +31,7 @@ class PessoasRouter extends model_router_1.ModelRouter {
         }
     }*/
     applyRoutes(application) {
-        application.get(`${this.basePath}`, this.findAll);
+        application.get(`${this.basePath}`, [authz_handler_1.authorize('PADRE'), this.findAllPaginado]);
         application.get(`${this.basePath}/:id`, this.findByPk);
         application.post(`${this.basePath}`, this.save);
         application.put(`${this.basePath}/:id`, this.replace);

@@ -1,9 +1,8 @@
 import * as restify from 'restify'
 import * as jwt from 'jsonwebtoken'
 
-import {User} from '../users/users.model'
+import { Pessoa } from '../modelRouter/pessoas/pessoas.model'
 import { environment } from '../commom/environment'
-import { NotExtendedError } from 'restify-errors'
 
 export const tokenParser: restify.RequestHandler = (req, resp, next) =>{
     const token = extractToken(req)
@@ -30,7 +29,7 @@ function extractToken(req: restify.Request){
 function applyBearer (req: restify.Request, next): (error,decoded) => void {
     return (error, decoded) => {
         if(decoded) {
-            User.findByEmail(decoded.sub).then(user=>{
+            Pessoa.findByEmail(decoded.sub).then(user=>{
                 if(user){
                     // Associar o usuário no request
                     req.authenticated = user

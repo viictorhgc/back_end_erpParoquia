@@ -13,8 +13,10 @@ class Pessoa extends sequelize.Model {
 }
 exports.Pessoa = Pessoa;
 Pessoa.findByEmail = function (email) {
-    console.log("TA USANDO ESSE");
-    return this.findOne({ where: { email } });
+    return this.findOne({
+        include: [{ model: grupos_model_1.Grupo }],
+        where: { email: email }
+    });
 };
 Pessoa.init({
     id: {

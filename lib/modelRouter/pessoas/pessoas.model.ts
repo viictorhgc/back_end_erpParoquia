@@ -16,15 +16,19 @@ export class Pessoa extends sequelize.Model {
   public senha!: string;
   public podeLogar: boolean;
 
-
+  public getGrupos!: sequelize.HasManyGetAssociationsMixin<Grupo>;
+ 
   validPassword(senha){
     return bcrypt.compareSync(senha, this.senha);
   }
-
+  
   static findByEmail = function(email: string){
-    console.log("TA USANDO ESSE")
-    return this.findOne( { where : {email}}) 
+    return this.findOne( { 
+      include: [{model: Grupo}],
+      where : {email : email}
+    }) 
 }
+
   /*
   // timestamps!
   public readonly createdAt!: Date;
@@ -137,4 +141,3 @@ Pessoa.beforeCreate((pessoa, options) => {
     pessoa.senha = undefined
   }
 });
-

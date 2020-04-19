@@ -6,7 +6,18 @@ class ModelRouter extends router_1.Router {
     constructor(model) {
         super();
         this.model = model;
-        this.pageSize = 4;
+        this.tamanhoPagina = 10;
+        this.findAllPaginado = (req, resp, next) => {
+            // Busca o número da página, ou se não for informado, retorna 1.
+            let pagina = parseInt(req.query._page || 1);
+            // Se a página for <= 0, retorna a página 1
+            pagina = pagina > 0 ? pagina : 1;
+            // 
+            const skip = (pagina - 1) * this.tamanhoPagina;
+            this.model.count()
+                .then(count => this.model.findAll({ offset: skip, limit: this.tamanhoPagina, order: [['id', 'ASC']], })
+                .then(this.renderAll(resp, next, { pagina, count, pageSize: this.tamanhoPagina, url: req.url })).catch(next));
+        };
         this.findOne = (req, resp, next) => {
             let document = new this.model(req.body);
             this.model.findOne({ where: req.body })
@@ -77,6 +88,24 @@ class ModelRouter extends router_1.Router {
     envelope(document) {
         let resource = Object.assign({ _links: {} }, document.toJSON());
         resource._links.self = `${this.basePath}/${resource.id}`;
+        return resource;
+    }
+    envelopeAll(documents, options = {}) {
+        const resource = {
+            _links: {
+                self: `${options.url}`
+            },
+            items: documents
+        };
+        if (options.pagina && options.count && options.pageSize) {
+            if (options.pagina > 1) {
+                resource._links.previous = `${this.basePath}?_page=${options.pagina - 1}`;
+            }
+            const remaining = options.count - (options.pagina * options.pageSize);
+            if (remaining > 0) {
+                resource._links.next = `${this.basePath}?_page=${options.pagina + 1}`;
+            }
+        }
         return resource;
     }
 }
