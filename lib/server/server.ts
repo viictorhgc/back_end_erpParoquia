@@ -7,6 +7,8 @@ import { mergePatchBodyParser } from './merge-patch.parser'
 import { handleError } from './error.handler'
 import { tokenParser } from '../security/token.parser'
 import { logger } from '../commom/logger'
+import * as corsMiddleware from 'restify-cors-middleware'
+
 
 export class Server {
 
@@ -33,6 +35,17 @@ export class Server {
                     log: logger
                 }))
 
+                /** Parte dedicada ao CORS */
+                const cors = corsMiddleware({
+                    preflightMaxAge: 5, //Optional
+                    origins: ['*'],
+                    allowHeaders: ['API-Token'],
+                    exposeHeaders: ['API-Token-Expiry']
+                  })
+                   
+                this.application.pre(cors.preflight)
+
+                /** FIM CORS */
                 this.application.use(restify.plugins.queryParser())
                 this.application.use(restify.plugins.bodyParser())
                 this.application.use(mergePatchBodyParser)

@@ -1,5 +1,5 @@
 export const environment = {
-    server: { port: process.env.SERVER_PORT || 3000},
+    server: { port: process.env.SERVER_PORT || 3001},
     db: {
         db_host: process.env.DB_HOST || "34.95.132.83",
         db_port:  5432,

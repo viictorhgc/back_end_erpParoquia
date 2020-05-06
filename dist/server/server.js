@@ -7,6 +7,7 @@ const merge_patch_parser_1 = require("./merge-patch.parser");
 const error_handler_1 = require("./error.handler");
 const token_parser_1 = require("../security/token.parser");
 const logger_1 = require("../commom/logger");
+const corsMiddleware = require("restify-cors-middleware");
 class Server {
     initRoutes(routers) {
         return new Promise((resolve, reject) => {
@@ -24,6 +25,15 @@ class Server {
                 this.application.pre(restify.plugins.requestLogger({
                     log: logger_1.logger
                 }));
+                /** Parte dedicada ao CORS */
+                const cors = corsMiddleware({
+                    preflightMaxAge: 5,
+                    origins: ['*'],
+                    allowHeaders: ['API-Token'],
+                    exposeHeaders: ['API-Token-Expiry']
+                });
+                this.application.pre(cors.preflight);
+                /** FIM CORS */
                 this.application.use(restify.plugins.queryParser());
                 this.application.use(restify.plugins.bodyParser());
                 this.application.use(merge_patch_parser_1.mergePatchBodyParser);
