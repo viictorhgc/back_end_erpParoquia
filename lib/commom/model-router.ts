@@ -38,6 +38,8 @@ export abstract class ModelRouter<D extends Sequelize.Model> extends Router {
             items: documents
         }
         if(options.pagina && options.count && options.pageSize){
+            resource.count =  options.count
+            resource.paginas = Math.ceil(options.count / options.pageSize)
             if(options.pagina > 1){
                 resource._links.previous = `${this.basePath}?_page=${options.pagina-1}`
             }
@@ -80,7 +82,7 @@ export abstract class ModelRouter<D extends Sequelize.Model> extends Router {
 
 
     findAll = (req, resp, next) => {
-        this.model.findAll().then(this.renderAll(resp, next)).catch(next)
+        this.model.findAll().then(this.renderAll(resp, next, {url: req.url} )).catch(next)
     }
 
     save = (req, resp, next) => {

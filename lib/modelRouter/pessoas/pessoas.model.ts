@@ -4,7 +4,6 @@ import { database } from '../../server/conexao.db'
 import { Grupo } from '../grupos/grupos.model'
 import { PessoaGrupo } from './pessoasGrupos.model'
 import { environment } from '../../commom/environment'
-import { Sequelize } from 'sequelize'
 
 export class Pessoa extends sequelize.Model {
   public id!: bigint; // Note that the `null assertion` `!` is required in strict mode.

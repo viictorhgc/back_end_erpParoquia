@@ -29,7 +29,7 @@ class ModelRouter extends router_1.Router {
                 .then(this.render(resp, next)).catch(next);
         };
         this.findAll = (req, resp, next) => {
-            this.model.findAll().then(this.renderAll(resp, next)).catch(next);
+            this.model.findAll().then(this.renderAll(resp, next, { url: req.url })).catch(next);
         };
         this.save = (req, resp, next) => {
             let document = new this.model(req.body);
@@ -98,6 +98,8 @@ class ModelRouter extends router_1.Router {
             items: documents
         };
         if (options.pagina && options.count && options.pageSize) {
+            resource.count = options.count;
+            resource.paginas = Math.ceil(options.count / options.pageSize);
             if (options.pagina > 1) {
                 resource._links.previous = `${this.basePath}?_page=${options.pagina - 1}`;
             }

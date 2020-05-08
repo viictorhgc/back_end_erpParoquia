@@ -4,14 +4,28 @@ import { authenticate } from '../../security/auth.handler'
 import { authorize } from '../../security/authz.handler'
 import { ModelRouter } from '../../commom/model-router'
 import { FluxoCaixa } from './fluxosCaixa.model'
+import { Pessoa } from '../pessoas/pessoas.model'
+import { ReceitaDespesa } from '../receitasDespesas/receitasDespesas.model';
 
 class FluxosCaixaRouter extends ModelRouter<FluxoCaixa> {
 
     constructor() {
         super(FluxoCaixa)
         this.on('beforeRender', document => {
-            document.telefone = undefined // Exemplo alterando um documento antes de exibir.
+            document.Pagador.senha = undefined,
+            document.Receptor.senha = undefined 
         })
+    }
+
+    findDizimosbyIdPessoa = (req, resp, next) => {
+        this.model.findAll({
+            where: {
+                pagadorId: req.params.id
+            },
+            include: [{ model: Pessoa , as: 'Pagador'},{ model: Pessoa , as: 'Receptor'}, {model: ReceitaDespesa}]
+        })
+            .then(this.renderAll(resp, next, { url: req.url }))
+            .catch(next)
     }
 
     applyRoutes(application: restify.Server) {
@@ -22,6 +36,9 @@ class FluxosCaixaRouter extends ModelRouter<FluxoCaixa> {
         application.put(`${this.basePath}/:id`, this.replace)
         application.patch(`${this.basePath}/:id`, this.update)
         application.del(`${this.basePath}/:id`, this.delete)
+
+        // Dízimos
+        application.get(`${this.basePath}/dizimo/pessoa/:id`, this.findDizimosbyIdPessoa)
 
     }
 

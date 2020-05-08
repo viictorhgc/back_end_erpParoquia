@@ -12,7 +12,7 @@ export const authenticate: restify.RequestHandler = (req, resp, next) =>{
             if(user && user.validPassword(senha,user.senha)){
                 const token = jwt.sign({sub: user.email, iss: 'backParoquiaAPI'}, 
                     environment.security.apiSecret)
-                resp.json({name: user.name, email: user.email, accessToken: token})
+                resp.json({ idLogado: user.id, name: user.name, email: user.email, accessToken: token})
                 return next(false)
             } else {
                 return next(new NotAuthorizedError('Invalid Credentials'))

@@ -5,9 +5,6 @@ const model_router_1 = require("../../commom/model-router");
 class ReceitasDespesasRouter extends model_router_1.ModelRouter {
     constructor() {
         super(receitasDespesas_model_1.ReceitaDespesa);
-        this.on('beforeRender', document => {
-            document.telefone = undefined; // Exemplo alterando um documento antes de exibir.
-        });
     }
     applyRoutes(application) {
         application.get(`${this.basePath}`, this.findAll);

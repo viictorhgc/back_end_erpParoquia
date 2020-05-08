@@ -9,10 +9,7 @@ import { ModelRouter } from '../../commom/model-router'
 class ReceitasDespesasRouter extends ModelRouter<ReceitaDespesa> {
 
     constructor() {
-        super(ReceitaDespesa)
-        this.on('beforeRender', document => {
-            document.telefone = undefined // Exemplo alterando um documento antes de exibir.
-        })
+        super(ReceitaDespesa)        
     }
 
     applyRoutes(application: restify.Server) {

@@ -36,7 +36,6 @@ class PessoasRouter extends ModelRouter<Pessoa> {
 
     applyRoutes(application: restify.Server) {
 
-
         application.get(`${this.basePath}`, [authorize('PADRE'),this.findAllPaginado])
         application.get(`${this.basePath}/:id`, this.findByPk)
         application.post(`${this.basePath}`, this.save)

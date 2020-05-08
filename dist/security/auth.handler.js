@@ -10,7 +10,7 @@ exports.authenticate = (req, resp, next) => {
         .then(user => {
         if (user && user.validPassword(senha, user.senha)) {
             const token = jwt.sign({ sub: user.email, iss: 'backParoquiaAPI' }, environment_1.environment.security.apiSecret);
-            resp.json({ name: user.name, email: user.email, accessToken: token });
+            resp.json({ idLogado: user.id, name: user.name, email: user.email, accessToken: token });
             return next(false);
         }
         else {

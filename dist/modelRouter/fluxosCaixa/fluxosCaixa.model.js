@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize = require("sequelize");
 const conexao_db_1 = require("../../server/conexao.db");
+const pessoas_model_1 = require("../pessoas/pessoas.model");
+const receitasDespesas_model_1 = require("../receitasDespesas/receitasDespesas.model");
 class FluxoCaixa extends sequelize.Model {
 }
 exports.FluxoCaixa = FluxoCaixa;
@@ -43,4 +45,7 @@ FluxoCaixa.init({
     sequelize: conexao_db_1.database,
     timestamps: false
 });
+FluxoCaixa.belongsTo(pessoas_model_1.Pessoa, { as: 'Pagador', foreignKey: 'pagadorId' });
+FluxoCaixa.belongsTo(pessoas_model_1.Pessoa, { as: 'Receptor', foreignKey: 'receptorId' });
+FluxoCaixa.belongsTo(receitasDespesas_model_1.ReceitaDespesa, { foreignKey: 'receitaDespesaId' });
 //# sourceMappingURL=fluxosCaixa.model.js.map

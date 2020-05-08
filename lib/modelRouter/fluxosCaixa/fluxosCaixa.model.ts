@@ -1,5 +1,7 @@
 import * as sequelize from 'sequelize';
 import { database } from '../../server/conexao.db'
+import { Pessoa } from '../pessoas/pessoas.model'
+import { ReceitaDespesa } from '../receitasDespesas/receitasDespesas.model';
 
 export class FluxoCaixa extends sequelize.Model {
   public id!: bigint; // Note that the `null assertion` `!` is required in strict mode.
@@ -49,4 +51,6 @@ FluxoCaixa.init({
   timestamps: false
 });
 
-
+FluxoCaixa.belongsTo(Pessoa, { as: 'Pagador', foreignKey: 'pagadorId' })
+FluxoCaixa.belongsTo(Pessoa, { as: 'Receptor', foreignKey: 'receptorId' })
+FluxoCaixa.belongsTo(ReceitaDespesa, {foreignKey: 'receitaDespesaId'})
