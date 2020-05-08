@@ -12,8 +12,8 @@ class FluxosCaixaRouter extends ModelRouter<FluxoCaixa> {
     constructor() {
         super(FluxoCaixa)
         this.on('beforeRender', document => {
-            document.Pagador.senha = undefined,
-            document.Receptor.senha = undefined 
+            //document.Pagador.senha = undefined,
+            //document.Receptor.senha = undefined 
         })
     }
 

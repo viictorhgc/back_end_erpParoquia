@@ -18,8 +18,8 @@ class FluxosCaixaRouter extends model_router_1.ModelRouter {
                 .catch(next);
         };
         this.on('beforeRender', document => {
-            document.Pagador.senha = undefined,
-                document.Receptor.senha = undefined;
+            //document.Pagador.senha = undefined,
+            //document.Receptor.senha = undefined 
         });
     }
     applyRoutes(application) {

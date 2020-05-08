@@ -32,7 +32,7 @@ FluxoCaixa.init({
     data_efetivacao: {
         field: 't005_dt_efetivacao',
         type: new sequelize.DataTypes.DATE,
-        allowNull: false,
+        allowNull: true,
     },
     valor: {
         field: 't005_valor',
