@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const receitasDespesas_model_1 = require("./receitasDespesas.model");
+const tiposFluxos_model_1 = require("./tiposFluxos.model");
 const model_router_1 = require("../../commom/model-router");
 class TiposFluxosRouter extends model_router_1.ModelRouter {
     constructor() {
-        super(receitasDespesas_model_1.TipoFluxo);
+        super(tiposFluxos_model_1.TipoFluxo);
     }
     applyRoutes(application) {
         application.get(`${this.basePath}`, this.findAll);
@@ -16,4 +16,4 @@ class TiposFluxosRouter extends model_router_1.ModelRouter {
     }
 }
 exports.tiposFluxosRouter = new TiposFluxosRouter();
-//# sourceMappingURL=receitasDespesas.router.js.map
+//# sourceMappingURL=tiposFluxos.router.js.map

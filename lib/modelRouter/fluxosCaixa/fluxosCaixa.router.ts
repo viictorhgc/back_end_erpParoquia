@@ -5,7 +5,8 @@ import { authorize } from '../../security/authz.handler'
 import { ModelRouter } from '../../commom/model-router'
 import { FluxoCaixa } from './fluxosCaixa.model'
 import { Pessoa } from '../pessoas/pessoas.model'
-import { ReceitaDespesa } from '../receitasDespesas/receitasDespesas.model';
+import { TipoFluxo } from '../tiposFluxos/tiposFluxos.model';
+import { FormasPagamento } from '../formasPagamento/formasPagamento.model'
 
 class FluxosCaixaRouter extends ModelRouter<FluxoCaixa> {
 
@@ -22,7 +23,7 @@ class FluxosCaixaRouter extends ModelRouter<FluxoCaixa> {
             where: {
                 pagadorId: req.params.id
             },
-            include: [{ model: Pessoa , as: 'Pagador'},{ model: Pessoa , as: 'Receptor'}, {model: ReceitaDespesa}]
+            include: [{ model: Pessoa , as: 'Pagador'},{ model: Pessoa , as: 'Receptor'}, {model: TipoFluxo}, {model: FormasPagamento}]
         })
             .then(this.renderAll(resp, next, { url: req.url }))
             .catch(next)

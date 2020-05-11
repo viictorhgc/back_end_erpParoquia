@@ -4,6 +4,8 @@ import { Pessoa } from './pessoas.model'
 import { authenticate } from '../../security/auth.handler'
 import { authorize } from '../../security/authz.handler'
 import { ModelRouter } from '../../commom/model-router'
+import { tiposFluxosRouter } from '../tiposFluxos/tiposFluxos.router'
+import { Op } from 'sequelize'
 
 class PessoasRouter extends ModelRouter<Pessoa> {
 
@@ -12,38 +14,40 @@ class PessoasRouter extends ModelRouter<Pessoa> {
         this.on('beforeRender', document => {
             document.senha = undefined // Exemplo alterando um documento antes de exibir.
         })
-    } 
-    
-    /*
-    findByEmail = (req,resp,next)=> {
-        if(req.body.email){
-            console.log("Danado ta aqui")
-            Pessoa.findOne({where: {email : req.body.email}})
-            .then(user => {
-                console.log(user)
-              if(user) {
-                  return [user]
-              } else {
-                  return []
-              }
-            })
-            .then(this.renderAll(resp,next))
+    }
+
+    buscaPessoaPorCPF = (req, resp, next) => {
+        this.model.findOne({ where: { cpf: req.params.cpf } })
+            .then(this.render(resp, next))
             .catch(next)
-        } else {
-            throw new Error("Favor preencher o e-mail")
-        }
-    }*/
+    }
+
+    buscaPessoaPorNome = (req, resp, next) => {
+        this.model.findAll({ where: { nome: { [Op.iLike]: '%' + req.params.nome + '%' } } })
+            .then(this.renderAll(resp, next, { url: req.url }))
+            .catch(next)
+    }
+
+    buscaDependentes = (req, resp, next) => {
+        this.model.findAll({ where: { responsavelId: req.params.id } })
+            .then(this.renderAll(resp, next))
+            .catch(next)
+    }
 
     applyRoutes(application: restify.Server) {
 
-        application.get(`${this.basePath}`, [authorize('PADRE'),this.findAllPaginado])
+        //application.get(`${this.basePath}`, [authorize('PADRE'), this.findAllPaginado])
         application.get(`${this.basePath}/:id`, this.findByPk)
+        application.get(`${this.basePath}`, this.findAllPaginado)
+        application.get(`${this.basePath}/nome/:nome`, this.buscaPessoaPorNome) // Pesquisa por nome
+        application.get(`${this.basePath}/cpf/:cpf`, this.buscaPessoaPorCPF) // Pesquisa por CPF
+        application.get(`${this.basePath}/dependentes/:id`, this.buscaDependentes) // Busca dependentes
         application.post(`${this.basePath}`, this.save)
         application.put(`${this.basePath}/:id`, this.replace)
         application.patch(`${this.basePath}/:id`, this.update)
         application.del(`${this.basePath}/:id`, this.delete)
 
-        application.post('/autenticar', authenticate )
+        application.post('/autenticar', authenticate)
 
     }
 

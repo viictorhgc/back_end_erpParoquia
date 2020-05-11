@@ -20,18 +20,28 @@ Pessoa.findByEmail = function (email) {
 };
 Pessoa.init({
     id: {
-        field: 't001_id_pessoa',
+        field: 'pes_id_pessoa',
         type: sequelize.DataTypes.BIGINT,
         autoIncrement: true,
         primaryKey: true,
     },
     nome: {
-        field: 't001_no_pessoa',
+        field: 'pes_no_pessoa',
         type: new sequelize.DataTypes.STRING(500),
         allowNull: false,
     },
+    cpf: {
+        field: 'pes_nu_cpf',
+        type: new sequelize.DataTypes.STRING(11),
+        allowNull: true,
+    },
+    sexo: {
+        field: 'pes_tp_sexo',
+        type: new sequelize.DataTypes.STRING(1),
+        allowNull: false,
+    },
     email: {
-        field: 't001_ds_email',
+        field: 'pes_ds_email',
         type: new sequelize.DataTypes.STRING(255),
         allowNull: false,
         validate: {
@@ -41,27 +51,27 @@ Pessoa.init({
         }
     },
     dataNascimento: {
-        field: 't001_dt_nascimento',
+        field: 'pes_dt_nascimento',
         type: new sequelize.DataTypes.DATEONLY,
         allowNull: false
     },
     endereco: {
-        field: 't001_ds_endereco',
+        field: 'pes_ds_endereco',
         type: new sequelize.DataTypes.STRING(1000),
         allowNull: false
     },
     telefone: {
-        field: 't001_ds_telefone',
+        field: 'pes_ds_telefone',
         type: new sequelize.DataTypes.STRING(20),
         allowNull: false
     },
     senha: {
-        field: 't001_hash_senha',
+        field: 'pes_hash_senha',
         type: new sequelize.DataTypes.STRING,
         allowNull: true
     },
     podeLogar: {
-        field: 't001_is_login',
+        field: 'pes_is_login',
         type: new sequelize.DataTypes.TINYINT,
         allowNull: true,
         validate: {
@@ -73,7 +83,7 @@ Pessoa.init({
     }
 }, {
     schema: 'erp_paroquia',
-    tableName: 't001_pessoa',
+    tableName: 'tb_pes_pessoa',
     sequelize: conexao_db_1.database,
     timestamps: false,
     modelName: "Pessoa"

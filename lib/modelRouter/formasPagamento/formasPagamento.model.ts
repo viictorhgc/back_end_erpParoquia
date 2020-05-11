@@ -1,26 +1,26 @@
 import * as sequelize from 'sequelize';
 import { database } from '../../server/conexao.db'
 
-export class ReceitaDespesa extends sequelize.Model {
+export class FormasPagamento extends sequelize.Model {
   public id!: number; // Note that the `null assertion` `!` is required in strict mode.
   public nome!: string;
 }
 
-ReceitaDespesa.init({
+FormasPagamento.init({
   id: {
-    field: 't004_id_receita_despesa',
-    type: sequelize.DataTypes.BIGINT,
+    field: 'id_fpg_forma_pagamento',
+    type: sequelize.DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
   nome: {
-    field: 't004_no_receita_despesa',
+    field: 'nome_fpg_forma_pagamento',
     type: new sequelize.DataTypes.STRING(255),
     allowNull: false,
   },
 }, {
   schema: 'erp_paroquia',
-  tableName: 't004_receita_despesa',
+  tableName: 'tb_fpg_forma_pagamento',
   sequelize: database,
   timestamps: false
 });

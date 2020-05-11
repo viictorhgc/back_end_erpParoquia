@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const model_router_1 = require("../../commom/model-router");
 const fluxosCaixa_model_1 = require("./fluxosCaixa.model");
 const pessoas_model_1 = require("../pessoas/pessoas.model");
-const receitasDespesas_model_1 = require("../receitasDespesas/receitasDespesas.model");
+const tiposFluxos_model_1 = require("../tiposFluxos/tiposFluxos.model");
+const formasPagamento_model_1 = require("../formasPagamento/formasPagamento.model");
 class FluxosCaixaRouter extends model_router_1.ModelRouter {
     constructor() {
         super(fluxosCaixa_model_1.FluxoCaixa);
@@ -12,7 +13,7 @@ class FluxosCaixaRouter extends model_router_1.ModelRouter {
                 where: {
                     pagadorId: req.params.id
                 },
-                include: [{ model: pessoas_model_1.Pessoa, as: 'Pagador' }, { model: pessoas_model_1.Pessoa, as: 'Receptor' }, { model: receitasDespesas_model_1.ReceitaDespesa }]
+                include: [{ model: pessoas_model_1.Pessoa, as: 'Pagador' }, { model: pessoas_model_1.Pessoa, as: 'Receptor' }, { model: tiposFluxos_model_1.TipoFluxo }, { model: formasPagamento_model_1.FormasPagamento }]
             })
                 .then(this.renderAll(resp, next, { url: req.url }))
                 .catch(next);

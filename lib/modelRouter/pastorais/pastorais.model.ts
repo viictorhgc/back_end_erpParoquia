@@ -11,34 +11,34 @@ export class Pastoral extends sequelize.Model {
 
 Pastoral.init({
     id: {   
-        field: 't008_id_pastoral',
+        field: 'pas_id_pastoral',
         type: sequelize.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     nome: {
-        field: 't008_no_pastoral',
+        field: 'pas_no_pastoral',
         type: new sequelize.DataTypes.STRING(255),
         allowNull: false,
     },
     descricao: {
-        field: 't008_de_pastoral',
+        field: 'pas_ds_pastoral',
         type: new sequelize.DataTypes.STRING(500),
         allowNull: false
     },
     data_criacao: {
-        field: 't008_dt_criacao',
+        field: 'pas_dt_criacao',
         type: new sequelize.DataTypes.DATE,
-        allowNull: false
+        allowNull: true
     },
     ativo: {
-        field: 't008_is_ativo',
+        field: 'pas_is_ativo',
         type: new sequelize.DataTypes.TINYINT,
         allowNull: false
     }
 }, {
     schema: 'erp_paroquia',
-    tableName: 't008_pastoral',
+    tableName: 'tb_pas_pastoral',
     sequelize: database,
     timestamps: false
 });

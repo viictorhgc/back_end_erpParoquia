@@ -12,39 +12,38 @@ export class Campanha extends sequelize.Model {
 
 Campanha.init({
     id: {
-        field: 't006_id_campanha',
+        field: 'cpa_id_campanha',
         type: sequelize.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     nome: {
-        field: 't006_no_campanha',
+        field: 'cpa_no_campanha',
         type: new sequelize.DataTypes.STRING(255),
         allowNull: false,
     },
     descricao: {
-        field: 't006_de_campanha',
+        field: 'cpa_ds_campanha',
         type: new sequelize.DataTypes.STRING(500),
         allowNull: false
     },
     data_criacao: {
-        field: 't006_dt_inicio',
+        field: 'cpa_dt_inicio',
         type: new sequelize.DataTypes.DATE,
-        allowNull: false
+        allowNull: true
     },
     data_fim: {
-        field: 't006_dt_fim',
+        field: 'cpa_dt_fim',
         type: new sequelize.DataTypes.TINYINT,
-        allowNull: false
+        allowNull: true
     }
 }, {
     schema: 'erp_paroquia',
-    tableName: 't006_campanha',
+    tableName: 'tb_cpa_campanha',
     sequelize: database,
     timestamps: false
 });
 
-Campanha.hasMany(Evento)
-Evento.hasOne(Campanha)
+Campanha.hasMany(Evento, {foreignKey: 'campanhaId'})
 
 
