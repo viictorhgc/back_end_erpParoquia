@@ -22,7 +22,7 @@ Pastoral.init({
         type: new sequelize.DataTypes.STRING(500),
         allowNull: false
     },
-    data_criacao: {
+    dataCriacao: {
         field: 'pas_dt_criacao',
         type: new sequelize.DataTypes.DATE,
         allowNull: true

@@ -27,12 +27,12 @@ Campanha.init({
         type: new sequelize.DataTypes.STRING(500),
         allowNull: false
     },
-    data_criacao: {
+    dataCriacao: {
         field: 'cpa_dt_inicio',
         type: new sequelize.DataTypes.DATE,
         allowNull: true
     },
-    data_fim: {
+    dataFim: {
         field: 'cpa_dt_fim',
         type: new sequelize.DataTypes.TINYINT,
         allowNull: true
